@@ -1,0 +1,140 @@
+/* src/components/CareerMapView.css */
+
+/* Contenedor general (si lo usás) */
+.career-map-container {
+  width: 100%;
+  margin: 0;
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+/* Fila de año */
+.yearRow {
+  padding: 10px 4px 16px 4px;
+  border-bottom: 1px dashed #e5e7eb;
+}
+
+.yearTitle {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #111827;
+  margin-bottom: 10px;
+}
+
+/* Materias en fila con wrap */
+.subjectsRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+/* Wrapper para tooltip */
+.nodeWrapper {
+  position: relative;
+}
+
+/* Nodo único */
+.node {
+  width: 220px;
+  min-height: 42px;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 14px;
+  padding: 8px 12px;
+  border: 2px solid #cbd5e1;
+  background: #f3f4f6;
+  color: #111;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  box-sizing: border-box;
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.node:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/* Colores por estado */
+.node.state-APROBADA {
+  background: #dcfce7;
+  border-color: #16a34a;
+}
+
+.node.state-REGULAR {
+  background: #fef9c3;
+  border-color: #ca8a04;
+}
+
+.node.state-NO_APROBADA {
+  background: #f3f4f6;
+  border-color: #cbd5e1;
+}
+
+/* Tooltip único */
+
+.cmTooltip {
+  position: absolute;
+  left: 0;
+  top: 48px;
+  width: 280px;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
+  padding: 10px 12px;
+  z-index: 9999;
+  color: #111;
+}
+
+.cmTooltip b {
+  display: block;
+  margin-bottom: 6px;
+}
+
+.cmTooltip ul {
+  margin: 8px 0 0 18px;
+  padding: 0;
+}
+
+.cmTooltip li {
+  color: #b91c1c;
+  font-size: 12px;
+  margin: 2px 0;
+}
+
+.nodeWrapper {
+  position: relative;
+  overflow: visible;
+}
+
+.subjectsRow {
+  overflow: visible;
+}
+
+@media (max-width: 600px) {
+  .node {
+    width: 100%;
+  }
+
+  .cmTooltip {
+    width: 260px;
+  }
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .node {
+    width: 100%;
+  }
+
+  .tooltip {
+    width: 260px;
+  }
+}
