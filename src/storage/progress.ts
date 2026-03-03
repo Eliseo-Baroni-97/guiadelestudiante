@@ -1,5 +1,4 @@
-import { SubjectState, CareerMap } from "../domain/types";
-
+import type { SubjectState, CareerMap } from "../domain/types";
 export type Progress = {
   mapId: string;
   mapVersion: number;
