@@ -63,7 +63,7 @@ export const materiasCarrera: CareerMap = {
       ],
       cuatrimestre: 4
     },
-    { id: "cuat4_5", name: "TALLER DE ALGORITMOS Y ESTRUCTURAS DE DATOS II", year: 2, duration: "SEGUNDO_SEMESTRE", correlativas: [] },
+    { id: "cuat4_5", name: "TALLER DE ALGORITMOS Y ESTRUCTURAS DE DATOS II", year: 2, duration: "SEGUNDO_SEMESTRE", correlativas: [], cuatrimestre: 4 },
 
     // QUINTO CUATRIMESTRE
     {
