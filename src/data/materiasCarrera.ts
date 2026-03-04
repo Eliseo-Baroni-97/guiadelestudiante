@@ -49,7 +49,7 @@ export const materiasCarrera: CareerMap = {
     },
 
     // CUARTO CUATRIMESTRE
-    { id: "cuat4_1", name: "ADMINISTRACION", year: 2, duration: "SEGUNDO_SEMESTRE", correlativas: [], cuatrimestre: 4 },
+    { id: "cuat4_1", name: "ADMI  NISTRACION", year: 2, duration: "SEGUNDO_SEMESTRE", correlativas: [], cuatrimestre: 4 },
     {
       id: "cuat4_2", name: "ALGORITMOS Y ESTRUCTURA DE DATOS II", year: 2, duration: "SEGUNDO_SEMESTRE", correlativas: [
         { subjectId: "cuat3_1", requiredState: "APROBADA" },
