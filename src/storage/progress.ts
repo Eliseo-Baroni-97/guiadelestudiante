@@ -69,21 +69,22 @@ export function loadProgress(map: CareerMap): Progress {
   if (!item) {
     return createInitialProgress(map);
   }
-  let parsed: any;
+  let parsed: unknown;
   try {
     parsed = JSON.parse(item);
   } catch {
     return createInitialProgress(map);
   }
-  if (!parsed || parsed.mapId !== map.id) {
+  if (!parsed || typeof parsed !== "object" || parsed === null || !("mapId" in parsed) || (parsed as Progress).mapId !== map.id) {
     return createInitialProgress(map);
   }
+  const progress = parsed as Progress;
   // Si la versión no coincide, migrar best-effort
-  if (parsed.mapVersion !== map.version) {
+  if (progress.mapVersion !== map.version) {
     const newStates: Record<string, SubjectState> = {};
     for (const node of map.nodes) {
-      if (parsed.states && typeof parsed.states[node.id] === "string") {
-        newStates[node.id] = parsed.states[node.id];
+      if (progress.states && typeof progress.states[node.id] === "string") {
+        newStates[node.id] = progress.states[node.id];
       } else {
         newStates[node.id] = "NO_APROBADA";
       }
@@ -100,8 +101,8 @@ export function loadProgress(map: CareerMap): Progress {
   // Si la versión coincide, normalizar estados
   const normStates: Record<string, SubjectState> = {};
   for (const node of map.nodes) {
-    if (parsed.states && typeof parsed.states[node.id] === "string") {
-      normStates[node.id] = parsed.states[node.id];
+    if (progress.states && typeof progress.states[node.id] === "string") {
+      normStates[node.id] = progress.states[node.id];
     } else {
       normStates[node.id] = "NO_APROBADA";
     }
@@ -109,7 +110,7 @@ export function loadProgress(map: CareerMap): Progress {
   return {
     mapId: map.id,
     mapVersion: map.version,
-    updatedAt: parsed.updatedAt || new Date().toISOString(),
+    updatedAt: progress.updatedAt || new Date().toISOString(),
     states: normStates,
   };
 }
