@@ -1,4 +1,5 @@
 import type { SubjectState, CareerMap } from "../domain/types";
+import { canInteract } from "../domain/unlock";
 export type Progress = {
   mapId: string;
   mapVersion: number;
@@ -10,25 +11,25 @@ export function storageKey(mapId: string): string {
   return `brujulau:progress:${mapId}`;
 }
 
-export function nextState(current: SubjectState): SubjectState {
-  switch (current) {
-    case "NO_APROBADA":
-      return "REGULAR";
-    case "REGULAR":
-      return "APROBADA";
-    case "APROBADA":
-    default:
-      return "NO_APROBADA";
-  }
-}
-
-export function updateSubjectState(
+export function advanceSubjectState(
   map: CareerMap,
   progress: Progress,
   subjectId: string
 ): Progress {
+  const node = map.nodes.find((n) => n.id === subjectId);
+  if (!node) {
+    return progress;
+  }
+
   const current = progress.states[subjectId] ?? "NO_APROBADA";
-  const next = nextState(current);
+  const canAprobar = canInteract(node, map, progress.states);
+
+  let next: SubjectState;
+  if (current === "NO_APROBADA") next = "CURSANDO";
+  else if (current === "CURSANDO") next = "REGULAR";
+  else if (current === "REGULAR") next = canAprobar ? "APROBADA" : "NO_APROBADA";
+  else next = "NO_APROBADA";
+
   return {
     ...progress,
     mapVersion: map.version,

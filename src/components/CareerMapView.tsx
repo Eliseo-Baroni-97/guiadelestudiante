@@ -1,7 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./CareerMapView.css";
-import type { CareerMap, SubjectState } from "../domain/types";
+import type { CareerMap } from "../domain/types";
 import { canInteract, getMissingReasons } from "../domain/unlock";
+import {
+  advanceSubjectState,
+  loadProgress,
+  resetProgress,
+  saveProgress,
+  type Progress,
+} from "../storage/progress";
 
 
 interface Props {
@@ -10,37 +17,9 @@ interface Props {
 
 export const CareerMapView: React.FC<Props> = ({ map }) => {
   const [hoveredId, setHoveredId] = useState<string | null>(null);
-  const storageKey = `brujulau:progress:${map.id}`;
-  // Inicialización con persistencia
-  const [states, setStates] = useState<Record<string, SubjectState>>(() => {
-    try {
-      const raw = localStorage.getItem(storageKey);
-      if (raw) {
-        const parsed = JSON.parse(raw);
-        if (
-          parsed &&
-          parsed.mapId === map.id &&
-          typeof parsed.states === "object" &&
-          parsed.states !== null
-        ) {
-          // Normalizar: solo ids actuales, agregar faltantes
-          const result: Record<string, SubjectState> = {};
-          for (const node of map.nodes) {
-            result[node.id] = typeof parsed.states[node.id] === "string" ? parsed.states[node.id] : "NO_APROBADA";
-          }
-          return result;
-        }
-      }
-    } catch {
-      // Ignorar errores de parseo de localStorage, se inicializa vacío
-    }
-    // Por defecto, todo NO_APROBADA
-    const result: Record<string, SubjectState> = {};
-    for (const node of map.nodes) {
-      result[node.id] = "NO_APROBADA";
-    }
-    return result;
-  });
+  const [progress, setProgress] = useState<Progress>(() => loadProgress(map));
+  const lastPersistedSnapshot = useRef<string>(JSON.stringify(progress));
+  const states = progress.states;
   // Agrupar materias por cuatrimestre consecutivo
   const cuatMap: Record<number, import("../domain/types").SubjectNode[]> = {};
   for (const node of map.nodes) {
@@ -49,27 +28,26 @@ export const CareerMapView: React.FC<Props> = ({ map }) => {
       cuatMap[node.cuatrimestre].push(node);
     }
   }
-  // Reset progreso
   function handleReset() {
-    setStates(() => {
-      const result: Record<string, SubjectState> = {};
-      for (const node of map.nodes) result[node.id] = "NO_APROBADA";
-      localStorage.removeItem(storageKey);
-      return result;
-    });
+    setProgress(() => resetProgress(map));
   }
-  // Avance de estado con correlativas
-  function nextStateAllowCursarRegularButBlockAprobada(current: SubjectState, canAprobar: boolean): SubjectState {
-    if (current === "NO_APROBADA") return "CURSANDO";
-    if (current === "CURSANDO") return "REGULAR";
-    if (current === "REGULAR") return canAprobar ? "APROBADA" : "NO_APROBADA";
-    if (current === "APROBADA") return "NO_APROBADA";
-    return current;
-  }
-  // Persistencia
+
+  // Recargar progreso si cambia el mapa activo
   useEffect(() => {
-    localStorage.setItem(storageKey, JSON.stringify({ mapId: map.id, states }));
-  }, [states, map.id, storageKey]);
+    const loaded = loadProgress(map);
+    lastPersistedSnapshot.current = JSON.stringify(loaded);
+    setProgress(loaded);
+  }, [map.id, map.version]);
+
+  // Persistencia centralizada
+  useEffect(() => {
+    const snapshot = JSON.stringify(progress);
+    if (snapshot === lastPersistedSnapshot.current) {
+      return;
+    }
+    saveProgress(progress);
+    lastPersistedSnapshot.current = snapshot;
+  }, [progress]);
 
   return (
     <div className="container-fluid py-3">
@@ -143,10 +121,7 @@ export const CareerMapView: React.FC<Props> = ({ map }) => {
                                   textOverflow: 'ellipsis',
                                 }}
                                 onClick={() => {
-                                  setStates(s => ({
-                                    ...s,
-                                    [node.id]: nextStateAllowCursarRegularButBlockAprobada(s[node.id], canAprobar),
-                                  }));
+                                  setProgress((prev) => advanceSubjectState(map, prev, node.id));
                                 }}
                               >
                                 <span>{node.name}</span>
