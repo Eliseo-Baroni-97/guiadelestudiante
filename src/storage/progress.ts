@@ -1,5 +1,5 @@
 import type { SubjectState, CareerMap } from "../domain/types";
-import { canInteract } from "../domain/unlock";
+import { canEnroll, canApprove } from "../domain/unlock";
 export type Progress = {
   mapId: string;
   mapVersion: number;
@@ -22,13 +22,16 @@ export function advanceSubjectState(
   }
 
   const current = progress.states[subjectId] ?? "NO_APROBADA";
-  const canAprobar = canInteract(node, map, progress.states);
-
   let next: SubjectState;
-  if (current === "NO_APROBADA") next = "CURSANDO";
-  else if (current === "CURSANDO") next = "REGULAR";
-  else if (current === "REGULAR") next = canAprobar ? "APROBADA" : "NO_APROBADA";
-  else next = "NO_APROBADA";
+  if (current === "NO_APROBADA") {
+    next = canEnroll(node, map, progress.states) ? "CURSANDO" : "NO_APROBADA";
+  } else if (current === "CURSANDO") {
+    next = "REGULAR";
+  } else if (current === "REGULAR") {
+    next = canApprove(node, map, progress.states) ? "APROBADA" : "NO_APROBADA";
+  } else {
+    next = "NO_APROBADA";
+  }
 
   return {
     ...progress,

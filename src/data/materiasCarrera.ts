@@ -3,7 +3,7 @@ import type { CareerMap } from "../domain/types";
 export const materiasCarrera: CareerMap = {
   id: "lic-informatica-real",
   name: "Licenciatura en Informática (siglo 21)",
-  version: 1,
+  version: 2,
   policy: {
     priorYearsApproved: false,
   },

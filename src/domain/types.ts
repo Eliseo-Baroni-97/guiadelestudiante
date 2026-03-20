@@ -15,7 +15,9 @@ export interface SubjectNode {
   id: string;
   name: string;
   year: number;
-  correlativas: Prereq[];
+  correlativas?: Prereq[]; // legacy temporal, puede estar ausente
+  correlativasCursar?: Prereq[];
+  correlativasAprobar?: Prereq[];
   duration?: SubjectDuration;
   cuatrimestre?: number;
 }

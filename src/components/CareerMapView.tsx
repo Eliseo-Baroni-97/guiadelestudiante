@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./CareerMapView.css";
 import type { CareerMap } from "../domain/types";
-import { canInteract, getMissingReasons } from "../domain/unlock";
+import { canEnroll, canApprove, getMissingReasons } from "../domain/unlock";
 import {
   advanceSubjectState,
   loadProgress,
@@ -18,6 +18,13 @@ interface Props {
 export const CareerMapView: React.FC<Props> = ({ map }) => {
   const [hoveredId, setHoveredId] = useState<string | null>(null);
   const [progress, setProgress] = useState<Progress>(() => loadProgress(map));
+
+  // Recargar progreso si cambia el mapa activo
+  // ...existing code...
+  React.useEffect(() => {
+    setProgress(loadProgress(map));
+    // No modificar lastPersistedSnapshot aquí
+  }, [map]);
   const lastPersistedSnapshot = useRef<string>(JSON.stringify(progress));
   const states = progress.states;
   // Agrupar materias por cuatrimestre consecutivo
@@ -32,12 +39,6 @@ export const CareerMapView: React.FC<Props> = ({ map }) => {
     setProgress(() => resetProgress(map));
   }
 
-  // Recargar progreso si cambia el mapa activo
-  useEffect(() => {
-    const loaded = loadProgress(map);
-    lastPersistedSnapshot.current = JSON.stringify(loaded);
-    setProgress(loaded);
-  }, [map.id, map.version]);
 
   // Persistencia centralizada
   useEffect(() => {
@@ -46,7 +47,7 @@ export const CareerMapView: React.FC<Props> = ({ map }) => {
       return;
     }
     saveProgress(progress);
-    lastPersistedSnapshot.current = snapshot;
+    // No modificar lastPersistedSnapshot aquí
   }, [progress]);
 
   return (
@@ -86,13 +87,18 @@ export const CareerMapView: React.FC<Props> = ({ map }) => {
                       <h5 className="mb-2">Cuatrimestre {cuat}</h5>
                       <div className="d-flex flex-wrap gap-2 align-items-start subjectsRow">
                         {nodes.map((node: import("../domain/types").SubjectNode) => {
-                          const canAprobar = canInteract(node, map, states);
-                          const lockedForApprove = !canAprobar;
+                          const state = states[node.id];
+                          const canEnrollNow = canEnroll(node, map, states);
+                          const canApproveNow = canApprove(node, map, states);
                           let bg = "#f7f7fa", border = "#e0e0e0";
-                          if (states[node.id] === "APROBADA") { bg = "#d1f5e2"; border = "#15803d"; }
-                          else if (states[node.id] === "REGULAR") { bg = "#fffbe6"; border = "#facc15"; }
-                          else if (states[node.id] === "CURSANDO") { bg = "#dbeafe"; border = "#2563eb"; }
-                          else if (states[node.id] === "NO_APROBADA") { bg = "#f3f4f6"; border = "#cbd5e1"; }
+                          if (state === "APROBADA") { bg = "#d1f5e2"; border = "#15803d"; }
+                          else if (state === "REGULAR") { bg = "#fffbe6"; border = "#facc15"; }
+                          else if (state === "CURSANDO") { bg = "#dbeafe"; border = "#2563eb"; }
+                          else if (state === "NO_APROBADA") { bg = "#f3f4f6"; border = "#cbd5e1"; }
+                          // Deshabilitar botón si no puede cursar o aprobar según estado
+                          let disabled = false;
+                          if (state === "NO_APROBADA" && !canEnrollNow) disabled = true;
+                          if (state === "REGULAR" && !canApproveNow) disabled = true;
                           return (
                             <div
                               className="nodeWrapper"
@@ -102,9 +108,9 @@ export const CareerMapView: React.FC<Props> = ({ map }) => {
                               onMouseLeave={() => setHoveredId(null)}
                             >
                               <button
-                                className={`node btn text-truncate mb-2 state-${states[node.id]}${lockedForApprove ? ' opacity-50' : ''}`}
+                                className={`node btn text-truncate mb-2 state-${state}${disabled ? ' opacity-50' : ''}`}
                                 type="button"
-                                disabled={false}
+                                disabled={disabled}
                                 style={{
                                   background: bg,
                                   border: `2px solid ${border}`,
@@ -131,26 +137,53 @@ export const CareerMapView: React.FC<Props> = ({ map }) => {
                                   <div style={{ fontWeight: 600, fontSize: 17, marginBottom: 2 }}>{node.name}</div>
                                   <div style={{ marginBottom: 4 }}>
                                     Estado: <b>{
-                                      states[node.id] === "APROBADA"
+                                      state === "APROBADA"
                                         ? "Aprobada"
-                                        : states[node.id] === "REGULAR"
+                                        : state === "REGULAR"
                                           ? "Regular"
-                                          : states[node.id] === "CURSANDO"
+                                          : state === "CURSANDO"
                                             ? "Cursando"
                                             : "No aprobada"
                                     }</b>
                                   </div>
                                   <div style={{ marginBottom: 4 }}>
-                                    Puede aprobar: <b>{canAprobar ? "Sí" : "No"}</b>
+                                    Puede cursar: <b>{canEnrollNow ? "Sí" : "No"}</b>
                                   </div>
-                                  {lockedForApprove && (
+                                  <div style={{ marginBottom: 4 }}>
+                                    Puede aprobar: <b>{canApproveNow ? "Sí" : "No"}</b>
+                                  </div>
+                                  {/* Motivos para cursar o aprobar según estado */}
+                                  {(state === "NO_APROBADA" && !canEnrollNow) && (
                                     <div style={{ marginTop: 6 }}>
                                       <div style={{ color: "#b91c1c", fontWeight: 500, fontSize: 14, marginBottom: 2 }}>
-                                        Correlativas faltantes:
+                                        Requisitos para cursar faltantes:
                                       </div>
                                       <ul style={{ color: "#d32f2f", fontSize: 14, margin: 0, paddingLeft: 18, listStyle: "disc inside" }}>
                                         {(() => {
-                                          const reasons = getMissingReasons(node, map, states);
+                                          // Aquí deberías tener getMissingReasonsCursar
+                                          // Por compatibilidad, usa getMissingReasons pero adaptado
+                                          const reasons = getMissingReasons(node, map, states); // Si tienes getMissingReasonsCursar, úsalo
+                                          if (reasons.some(r => r.includes("años anteriores"))) {
+                                            return <li key="prev">Falta aprobar todas las materias de años anteriores</li>;
+                                          }
+                                          if (reasons.length > 0) {
+                                            return reasons.map((r, i) => <li key={i}>{r.replace(/^Falta (REGULAR|APROBADA) en: /, "")}</li>);
+                                          }
+                                          return <li key="ok">Sin correlativas pendientes</li>;
+                                        })()}
+                                      </ul>
+                                    </div>
+                                  )}
+                                  {(state === "REGULAR" && !canApproveNow) && (
+                                    <div style={{ marginTop: 6 }}>
+                                      <div style={{ color: "#b91c1c", fontWeight: 500, fontSize: 14, marginBottom: 2 }}>
+                                        Requisitos para aprobar faltantes:
+                                      </div>
+                                      <ul style={{ color: "#d32f2f", fontSize: 14, margin: 0, paddingLeft: 18, listStyle: "disc inside" }}>
+                                        {(() => {
+                                          // Aquí deberías tener getMissingReasonsAprobar
+                                          // Por compatibilidad, usa getMissingReasons pero adaptado
+                                          const reasons = getMissingReasons(node, map, states); // Si tienes getMissingReasonsAprobar, úsalo
                                           if (reasons.some(r => r.includes("años anteriores"))) {
                                             return <li key="prev">Falta aprobar todas las materias de años anteriores</li>;
                                           }
