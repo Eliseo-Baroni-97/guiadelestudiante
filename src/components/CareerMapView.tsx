@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./CareerMapView.css";
 import type { CareerMap } from "../domain/types";
-import { canEnroll, canApprove, getMissingReasons } from "../domain/unlock";
+import { canEnroll, canApprove, getMissingReasonsEnroll, getMissingReasonsApprove } from "../domain/unlock";
 import {
   advanceSubjectState,
   loadProgress,
@@ -20,10 +20,8 @@ export const CareerMapView: React.FC<Props> = ({ map }) => {
   const [progress, setProgress] = useState<Progress>(() => loadProgress(map));
 
   // Recargar progreso si cambia el mapa activo
-  // ...existing code...
   React.useEffect(() => {
     setProgress(loadProgress(map));
-    // No modificar lastPersistedSnapshot aquí
   }, [map]);
   const lastPersistedSnapshot = useRef<string>(JSON.stringify(progress));
   const states = progress.states;
@@ -47,7 +45,7 @@ export const CareerMapView: React.FC<Props> = ({ map }) => {
       return;
     }
     saveProgress(progress);
-    // No modificar lastPersistedSnapshot aquí
+    lastPersistedSnapshot.current = snapshot;
   }, [progress]);
 
   return (
@@ -152,7 +150,6 @@ export const CareerMapView: React.FC<Props> = ({ map }) => {
                                   <div style={{ marginBottom: 4 }}>
                                     Puede aprobar: <b>{canApproveNow ? "Sí" : "No"}</b>
                                   </div>
-                                  {/* Motivos para cursar o aprobar según estado */}
                                   {(state === "NO_APROBADA" && !canEnrollNow) && (
                                     <div style={{ marginTop: 6 }}>
                                       <div style={{ color: "#b91c1c", fontWeight: 500, fontSize: 14, marginBottom: 2 }}>
@@ -160,14 +157,12 @@ export const CareerMapView: React.FC<Props> = ({ map }) => {
                                       </div>
                                       <ul style={{ color: "#d32f2f", fontSize: 14, margin: 0, paddingLeft: 18, listStyle: "disc inside" }}>
                                         {(() => {
-                                          // Aquí deberías tener getMissingReasonsCursar
-                                          // Por compatibilidad, usa getMissingReasons pero adaptado
-                                          const reasons = getMissingReasons(node, map, states); // Si tienes getMissingReasonsCursar, úsalo
-                                          if (reasons.some(r => r.includes("años anteriores"))) {
+                                          const reasons = getMissingReasonsEnroll(node, map, states);
+                                          if (reasons.some((r: string) => r.includes("años anteriores"))) {
                                             return <li key="prev">Falta aprobar todas las materias de años anteriores</li>;
                                           }
                                           if (reasons.length > 0) {
-                                            return reasons.map((r, i) => <li key={i}>{r.replace(/^Falta (REGULAR|APROBADA) en: /, "")}</li>);
+                                            return reasons.map((r: string, i: number) => <li key={i}>{r.replace(/^Falta (REGULAR|APROBADA) en: /, "")}</li>);
                                           }
                                           return <li key="ok">Sin correlativas pendientes</li>;
                                         })()}
@@ -181,14 +176,12 @@ export const CareerMapView: React.FC<Props> = ({ map }) => {
                                       </div>
                                       <ul style={{ color: "#d32f2f", fontSize: 14, margin: 0, paddingLeft: 18, listStyle: "disc inside" }}>
                                         {(() => {
-                                          // Aquí deberías tener getMissingReasonsAprobar
-                                          // Por compatibilidad, usa getMissingReasons pero adaptado
-                                          const reasons = getMissingReasons(node, map, states); // Si tienes getMissingReasonsAprobar, úsalo
-                                          if (reasons.some(r => r.includes("años anteriores"))) {
+                                          const reasons = getMissingReasonsApprove(node, map, states);
+                                          if (reasons.some((r: string) => r.includes("años anteriores"))) {
                                             return <li key="prev">Falta aprobar todas las materias de años anteriores</li>;
                                           }
                                           if (reasons.length > 0) {
-                                            return reasons.map((r, i) => <li key={i}>{r.replace(/^Falta (REGULAR|APROBADA) en: /, "")}</li>);
+                                            return reasons.map((r: string, i: number) => <li key={i}>{r.replace(/^Falta (REGULAR|APROBADA) en: /, "")}</li>);
                                           }
                                           return <li key="ok">Sin correlativas pendientes</li>;
                                         })()}

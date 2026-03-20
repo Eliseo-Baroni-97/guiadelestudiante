@@ -9,6 +9,50 @@ export const fotografia: CareerMap = {
   },
   nodes: [
     {
+      id: "laboratorio1",
+      name: "Laboratorio I",
+      year: 1,
+      correlativasCursar: [],
+      correlativasAprobar: [],
+      cuatrimestre: 1,
+      duration: "PRIMER_SEMESTRE",
+    },
+    {
+      id: "laboratorio2",
+      name: "Laboratorio II",
+      year: 1,
+      correlativasCursar: [
+        { subjectId: "laboratorio1", requiredState: "APROBADA" },
+      ],
+      correlativasAprobar: [
+        { subjectId: "laboratorio1", requiredState: "APROBADA" },
+      ],
+      cuatrimestre: 2,
+      duration: "SEGUNDO_SEMESTRE",
+    },
+    {
+      id: "fotografia1",
+      name: "Fotografía I",
+      year: 1,
+      correlativasCursar: [],
+      correlativasAprobar: [],
+      cuatrimestre: 1,
+      duration: "PRIMER_SEMESTRE",
+    },
+    {
+      id: "fotografia2",
+      name: "Fotografía II",
+      year: 1,
+      correlativasCursar: [
+        { subjectId: "fotografia1", requiredState: "APROBADA" },
+      ],
+      correlativasAprobar: [
+        { subjectId: "fotografia1", requiredState: "APROBADA" },
+      ],
+      cuatrimestre: 2,
+      duration: "SEGUNDO_SEMESTRE",
+    },
+    {
       id: "practica",
       name: "Práctica Fotográfica",
       year: 1,
@@ -68,6 +112,5 @@ export const fotografia: CareerMap = {
       cuatrimestre: 5,
       duration: "PRIMER_SEMESTRE",
     },
-    // Agrega nodos laboratorio1, laboratorio2, fotografia1, fotografia2 según tu estructura
   ],
 };
