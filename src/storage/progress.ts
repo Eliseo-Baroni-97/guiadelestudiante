@@ -1,3 +1,28 @@
+import { canEnroll, canApprove } from "../domain/unlock";
+// Normaliza los estados de todas las materias según correlativas y reglas globales
+export function normalizeProgressStates(map: CareerMap, progress: Progress): Progress {
+  const newStates: Record<string, SubjectState> = { ...progress.states };
+  for (const node of map.nodes) {
+    const current = newStates[node.id] ?? "NO_APROBADA";
+    // Si está en APROBADA pero ya no puede aprobar, vuelve a NO_APROBADA
+    if (current === "APROBADA" && !canApprove(node, map, newStates)) {
+      newStates[node.id] = "NO_APROBADA";
+    }
+    // Si está en REGULAR pero ya no puede aprobar, vuelve a NO_APROBADA
+    else if (current === "REGULAR" && !canApprove(node, map, newStates)) {
+      newStates[node.id] = "NO_APROBADA";
+    }
+    // Si está en CURSANDO pero ya no puede cursar, vuelve a NO_APROBADA
+    else if (current === "CURSANDO" && !canEnroll(node, map, newStates)) {
+      newStates[node.id] = "NO_APROBADA";
+    }
+    // NO_APROBADA siempre es válido
+  }
+  return {
+    ...progress,
+    states: newStates,
+  };
+}
 import type { SubjectState, CareerMap } from "../domain/types";
 export type Progress = {
   mapId: string;
@@ -34,7 +59,7 @@ export function advanceSubjectState(
     next = "NO_APROBADA";
   }
 
-  return {
+  const updated = {
     ...progress,
     mapVersion: map.version,
     updatedAt: new Date().toISOString(),
@@ -43,6 +68,8 @@ export function advanceSubjectState(
       [subjectId]: next,
     },
   };
+  // Normalizar todos los estados después de cada cambio
+  return normalizeProgressStates(map, updated);
 }
 
 export function resetProgress(map: CareerMap): Progress {
