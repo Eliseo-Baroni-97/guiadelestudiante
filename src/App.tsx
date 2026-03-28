@@ -13,7 +13,7 @@ export default function App() {
   return (
     <div className="app">
       <header className="header">
-        <h1>Brújula U</h1>
+        <h1>Guía del Estudiante</h1>
         <p>Guía para no perderte con correlativas.</p>
       </header>
 
