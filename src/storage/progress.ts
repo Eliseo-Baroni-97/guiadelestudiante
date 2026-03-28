@@ -30,6 +30,7 @@ export function advanceSubjectState(
   } else if (current === "REGULAR") {
     next = "APROBADA";
   } else {
+    // Cualquier otro valor, incluyendo "APROBADA", vuelve a NO_APROBADA
     next = "NO_APROBADA";
   }
 
