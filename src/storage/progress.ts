@@ -2,24 +2,41 @@ import { canEnroll, canApprove } from "../domain/unlock";
 // Normaliza los estados de todas las materias según correlativas y reglas globales
 export function normalizeProgressStates(map: CareerMap, progress: Progress): Progress {
   const newStates: Record<string, SubjectState> = { ...progress.states };
-  for (const node of map.nodes) {
-    const current = newStates[node.id] ?? "NO_APROBADA";
-    // Si está en APROBADA pero ya no puede aprobar, vuelve a NO_APROBADA
-    if (current === "APROBADA" && !canApprove(node, map, newStates)) {
-      newStates[node.id] = "NO_APROBADA";
+
+  let changed = false;
+  let keepChecking = true;
+
+  while (keepChecking) {
+    keepChecking = false;
+
+    for (const node of map.nodes) {
+      const current = newStates[node.id] ?? "NO_APROBADA";
+      let next = current;
+
+      if (current === "APROBADA" && !canApprove(node, map, newStates)) {
+        next = "NO_APROBADA";
+      } else if (current === "REGULAR" && !canApprove(node, map, newStates)) {
+        next = "NO_APROBADA";
+      } else if (current === "CURSANDO" && !canEnroll(node, map, newStates)) {
+        next = "NO_APROBADA";
+      }
+
+      if (next !== current) {
+        newStates[node.id] = next;
+        changed = true;
+        keepChecking = true;
+      }
     }
-    // Si está en REGULAR pero ya no puede aprobar, vuelve a NO_APROBADA
-    else if (current === "REGULAR" && !canApprove(node, map, newStates)) {
-      newStates[node.id] = "NO_APROBADA";
-    }
-    // Si está en CURSANDO pero ya no puede cursar, vuelve a NO_APROBADA
-    else if (current === "CURSANDO" && !canEnroll(node, map, newStates)) {
-      newStates[node.id] = "NO_APROBADA";
-    }
-    // NO_APROBADA siempre es válido
   }
+
+  if (!changed) {
+    return progress;
+  }
+
   return {
     ...progress,
+    mapVersion: map.version,
+    updatedAt: new Date().toISOString(),
     states: newStates,
   };
 }
