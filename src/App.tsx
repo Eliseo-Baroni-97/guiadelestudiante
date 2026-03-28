@@ -3,6 +3,7 @@ import { useMemo, useState } from "react";
 import { careers } from "./data/careers";
 import { CareerMapView } from "./components/CareerMapView";
 
+// Página de carreras (sin header propio, para integrarse con el layout general)
 export default function App() {
   const [selectedCareerId, setSelectedCareerId] = useState<string | null>(null);
   const selectedCareer = useMemo(
@@ -12,11 +13,6 @@ export default function App() {
 
   return (
     <div className="app">
-      <header className="header">
-        <h1>Guía del Estudiante</h1>
-        <p>Guía para no perderte con correlativas.</p>
-      </header>
-
       <main className="main">
         {selectedCareer ? (
           <section className="card">
