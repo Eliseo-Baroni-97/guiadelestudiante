@@ -2,7 +2,7 @@
 import React from "react";
 import "./Navbar.css";
 import { Link } from "react-router-dom";
-import logo from "../assets/logo/logo.svg";
+import logo from "../assets/logo/logo.png";
 
 const Navbar: React.FC = () => (
   <nav className="navbar">
