@@ -1,11 +1,15 @@
+
 import React from "react";
 import "./Navbar.css";
 import { Link } from "react-router-dom";
+import logo from "../assets/logo/logo.svg";
 
 const Navbar: React.FC = () => (
   <nav className="navbar">
     <div className="navbar-container">
-      <div className="navbar-logo">Guía Estudiantil</div>
+      <div className="navbar-logo">
+        <img src={logo} alt="Logo Guía Estudiantil" height={36} />
+      </div>
       <ul className="navbar-links">
         <li><Link to="/">Inicio</Link></li>
         <li><Link to="#">Guía del ingresante</Link></li>
