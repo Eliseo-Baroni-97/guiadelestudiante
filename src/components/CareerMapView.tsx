@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import ReactDOM from "react-dom";
 import "./CareerMapView.css";
 import type { CareerMap } from "../domain/types";
 import { canEnroll, canApprove } from "../domain/unlock";
@@ -17,6 +18,8 @@ interface Props {
 
 export const CareerMapView: React.FC<Props> = ({ map }) => {
   const [hoveredId, setHoveredId] = useState<string | null>(null);
+  const [tooltipPos, setTooltipPos] = useState<{ top: number, left: number } | null>(null);
+  const nodeRefs = useRef<Record<string, HTMLDivElement | null>>({});
   const [progress, setProgress] = useState<Progress>(() => loadProgress(map));
 
   // Recargar progreso si cambia el mapa activo
@@ -102,8 +105,33 @@ export const CareerMapView: React.FC<Props> = ({ map }) => {
                               className="nodeWrapper"
                               style={{ position: 'relative' }}
                               key={node.id}
-                              onMouseEnter={() => setHoveredId(node.id)}
-                              onMouseLeave={() => setHoveredId(null)}
+                              ref={el => { nodeRefs.current[node.id] = el; }}
+                              onMouseEnter={e => {
+                                setHoveredId(node.id);
+                                // Calcular posición para el portal
+                                const rect = (e.currentTarget as HTMLDivElement).getBoundingClientRect();
+                                // Preferentemente a la derecha, pero si no entra, a la izquierda
+                                const tooltipWidth = 320;
+                                const margin = 8;
+                                let left = rect.right + margin;
+                                if (left + tooltipWidth > window.innerWidth) {
+                                  left = rect.left - tooltipWidth - margin;
+                                }
+                                // Si tampoco entra a la izquierda, forzar dentro del viewport
+                                if (left < 0) left = margin;
+                                let top = rect.top;
+                                // Si se sale por abajo, ajustar
+                                const tooltipHeight = 340;
+                                if (top + tooltipHeight > window.innerHeight) {
+                                  top = window.innerHeight - tooltipHeight - margin;
+                                }
+                                if (top < 0) top = margin;
+                                setTooltipPos({ top, left });
+                              }}
+                              onMouseLeave={() => {
+                                setHoveredId(null);
+                                setTooltipPos(null);
+                              }}
                             >
                               <button
                                 className={`node btn text-truncate mb-2 state-${state}${disabled ? ' opacity-50' : ''}`}
@@ -130,8 +158,25 @@ export const CareerMapView: React.FC<Props> = ({ map }) => {
                               >
                                 <span>{node.name}</span>
                               </button>
-                              {hoveredId === node.id && (
-                                <div className="cmTooltip">
+                              {hoveredId === node.id && tooltipPos && ReactDOM.createPortal(
+                                <div
+                                  className="cmTooltip"
+                                  style={{
+                                    position: 'fixed',
+                                    top: tooltipPos.top,
+                                    left: tooltipPos.left,
+                                    width: 320,
+                                    maxWidth: '90vw',
+                                    maxHeight: 340,
+                                    overflowY: 'auto',
+                                    zIndex: 9999,
+                                  }}
+                                  onMouseEnter={() => setHoveredId(node.id)}
+                                  onMouseLeave={() => {
+                                    setHoveredId(null);
+                                    setTooltipPos(null);
+                                  }}
+                                >
                                   <div style={{ fontWeight: 600, fontSize: 17, marginBottom: 2 }}>{node.name}</div>
                                   <div style={{ marginBottom: 4 }}>
                                     Estado: <b>{
@@ -220,7 +265,8 @@ export const CareerMapView: React.FC<Props> = ({ map }) => {
                                       })}
                                     </ul>
                                   </div>
-                                </div>
+                                </div>,
+                                document.body
                               )}
                             </div>
                           );
