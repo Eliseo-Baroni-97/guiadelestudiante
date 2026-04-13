@@ -150,44 +150,46 @@ export const CareerMapView: React.FC<Props> = ({ map }) => {
                                   <div style={{ marginBottom: 4 }}>
                                     Puede aprobar: <b>{canApproveNow ? "Sí" : "No"}</b>
                                   </div>
-                                  {(state === "NO_APROBADA" && !canEnrollNow) && (
-                                    <div style={{ marginTop: 6 }}>
-                                      <div style={{ color: "#b91c1c", fontWeight: 500, fontSize: 14, marginBottom: 2 }}>
-                                        Requisitos para cursar faltantes:
-                                      </div>
-                                      <ul style={{ color: "#d32f2f", fontSize: 14, margin: 0, paddingLeft: 18, listStyle: "disc inside" }}>
-                                        {(() => {
-                                          const reasons = getMissingReasonsEnroll(node, map, states);
-                                          if (reasons.some((r: string) => r.includes("años anteriores"))) {
-                                            return <li key="prev">Falta aprobar todas las materias de años anteriores</li>;
-                                          }
-                                          if (reasons.length > 0) {
-                                            return reasons.map((r: string, i: number) => <li key={i}>{r.replace(/^Falta (REGULAR|APROBADA) en: /, "")}</li>);
-                                          }
-                                          return <li key="ok">Sin correlativas pendientes</li>;
-                                        })()}
-                                      </ul>
+                                  {/* Mostrar TODOS los requisitos para cursar */}
+                                  <div style={{ marginTop: 6 }}>
+                                    <div style={{ color: "#2563eb", fontWeight: 500, fontSize: 14, marginBottom: 2 }}>
+                                      Requisitos para cursar:
                                     </div>
-                                  )}
-                                  {(state === "REGULAR" && !canApproveNow) && (
-                                    <div style={{ marginTop: 6 }}>
-                                      <div style={{ color: "#b91c1c", fontWeight: 500, fontSize: 14, marginBottom: 2 }}>
-                                        Requisitos para aprobar faltantes:
-                                      </div>
-                                      <ul style={{ color: "#d32f2f", fontSize: 14, margin: 0, paddingLeft: 18, listStyle: "disc inside" }}>
-                                        {(() => {
-                                          const reasons = getMissingReasonsApprove(node, map, states);
-                                          if (reasons.some((r: string) => r.includes("años anteriores"))) {
-                                            return <li key="prev">Falta aprobar todas las materias de años anteriores</li>;
-                                          }
-                                          if (reasons.length > 0) {
-                                            return reasons.map((r: string, i: number) => <li key={i}>{r.replace(/^Falta (REGULAR|APROBADA) en: /, "")}</li>);
-                                          }
-                                          return <li key="ok">Sin correlativas pendientes</li>;
-                                        })()}
-                                      </ul>
+                                    <ul style={{ fontSize: 14, margin: 0, paddingLeft: 18, listStyle: "disc inside" }}>
+                                      {(node.correlativasCursar ?? []).length === 0 && <li key="ok">Sin correlativas</li>}
+                                      {(node.correlativasCursar ?? []).map((prereq, i) => {
+                                        const actual = states[prereq.subjectId] ?? "NO_APROBADA";
+                                        const subject = map.nodes.find(n => n.id === prereq.subjectId);
+                                        const name = subject ? subject.name : prereq.subjectId;
+                                        const ok = (prereq.requiredState === "REGULAR" && (actual === "REGULAR" || actual === "APROBADA")) || (prereq.requiredState === "APROBADA" && actual === "APROBADA");
+                                        return (
+                                          <li key={prereq.subjectId + prereq.requiredState} style={ok ? {} : { color: '#b91c1c', fontWeight: 600 }}>
+                                            {name} ({prereq.requiredState}) {ok ? '' : ' - FALTA'}
+                                          </li>
+                                        );
+                                      })}
+                                    </ul>
+                                  </div>
+                                  {/* Mostrar TODOS los requisitos para aprobar */}
+                                  <div style={{ marginTop: 6 }}>
+                                    <div style={{ color: "#ca8a04", fontWeight: 500, fontSize: 14, marginBottom: 2 }}>
+                                      Requisitos para aprobar:
                                     </div>
-                                  )}
+                                    <ul style={{ fontSize: 14, margin: 0, paddingLeft: 18, listStyle: "disc inside" }}>
+                                      {((node.correlativasAprobar ?? node.correlativas) ?? []).length === 0 && <li key="ok">Sin correlativas</li>}
+                                      {((node.correlativasAprobar ?? node.correlativas) ?? []).map((prereq, i) => {
+                                        const actual = states[prereq.subjectId] ?? "NO_APROBADA";
+                                        const subject = map.nodes.find(n => n.id === prereq.subjectId);
+                                        const name = subject ? subject.name : prereq.subjectId;
+                                        const ok = (prereq.requiredState === "REGULAR" && (actual === "REGULAR" || actual === "APROBADA")) || (prereq.requiredState === "APROBADA" && actual === "APROBADA");
+                                        return (
+                                          <li key={prereq.subjectId + prereq.requiredState} style={ok ? {} : { color: '#b91c1c', fontWeight: 600 }}>
+                                            {name} ({prereq.requiredState}) {ok ? '' : ' - FALTA'}
+                                          </li>
+                                        );
+                                      })}
+                                    </ul>
+                                  </div>
                                 </div>
                               )}
                             </div>
