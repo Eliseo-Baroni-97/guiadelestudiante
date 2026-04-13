@@ -132,36 +132,6 @@ export const CareerMapView: React.FC<Props> = ({ map }) => {
                               </button>
                               {hoveredId === node.id && (
                                 <div className="cmTooltip">
-                                  {/* Mostrar requisitos de año completo para cursar/aprobar con colores */}
-                                  {(node.requiresYearsApprovedCursar && node.requiresYearsApprovedCursar.length > 0) && (
-                                    <div style={{ fontWeight: 500, fontSize: 14, marginBottom: 2 }}>
-                                      {node.requiresYearsApprovedCursar.map((year, idx, arr) => {
-                                        const yearNodes = map.nodes.filter(n => n.year === year);
-                                        const ok = yearNodes.every(n => states[n.id] === "APROBADA");
-                                        // Solo un punto al final de la frase
-                                        const isLast = idx === arr.length - 1;
-                                        return (
-                                          <span key={"cursar-" + year} style={ok ? { color: '#111' } : { color: '#b91c1c', fontWeight: 600 }}>
-                                            Requiere {year}° año completo para <b>cursar</b>{ok ? '' : ' - FALTA'}{!isLast ? ', ' : '.'}
-                                          </span>
-                                        );
-                                      })}
-                                    </div>
-                                  )}
-                                  {(node.requiresYearsApprovedAprobar && node.requiresYearsApprovedAprobar.length > 0) && (
-                                    <div style={{ fontWeight: 500, fontSize: 14, marginBottom: 2 }}>
-                                      {node.requiresYearsApprovedAprobar.map((year, idx, arr) => {
-                                        const yearNodes = map.nodes.filter(n => n.year === year);
-                                        const ok = yearNodes.every(n => states[n.id] === "APROBADA");
-                                        const isLast = idx === arr.length - 1;
-                                        return (
-                                          <span key={"aprobar-" + year} style={ok ? { color: '#111' } : { color: '#b91c1c', fontWeight: 600 }}>
-                                            Requiere {year}° año completo para <b>aprobar</b>{ok ? '' : ' - FALTA'}{!isLast ? ', ' : '.'}
-                                          </span>
-                                        );
-                                      })}
-                                    </div>
-                                  )}
                                   <div style={{ fontWeight: 600, fontSize: 17, marginBottom: 2 }}>{node.name}</div>
                                   <div style={{ marginBottom: 4 }}>
                                     Estado: <b>{
@@ -186,7 +156,18 @@ export const CareerMapView: React.FC<Props> = ({ map }) => {
                                       Requisitos para cursar:
                                     </div>
                                     <ul style={{ fontSize: 14, margin: 0, paddingLeft: 18, listStyle: "disc inside" }}>
-                                      {(node.correlativasCursar ?? []).length === 0 && (
+                                      {/* Mostrar año completo como un item más */}
+                                      {(node.requiresYearsApprovedCursar && node.requiresYearsApprovedCursar.length > 0) && node.requiresYearsApprovedCursar.map((year) => {
+                                        const yearNodes = map.nodes.filter(n => n.year === year);
+                                        const ok = yearNodes.every(n => states[n.id] === "APROBADA");
+                                        return (
+                                          <li key={"cursar-" + year} style={ok ? { color: '#111' } : { color: '#b91c1c', fontWeight: 600 }}>
+                                            Requiere {year}° año completo {ok ? '' : ' - FALTA'}
+                                          </li>
+                                        );
+                                      })}
+                                      {/* Si no hay correlativas ni año completo, mostrar sin correlativas */}
+                                      {((!node.correlativasCursar || node.correlativasCursar.length === 0) && (!node.requiresYearsApprovedCursar || node.requiresYearsApprovedCursar.length === 0)) && (
                                         <li key="ok" className="no-correlativas">
                                           <span className="dot-black">•</span> <span style={{ color: '#111', fontWeight: 500 }}>Sin correlativas</span>
                                         </li>
@@ -210,7 +191,18 @@ export const CareerMapView: React.FC<Props> = ({ map }) => {
                                       Requisitos para aprobar:
                                     </div>
                                     <ul style={{ fontSize: 14, margin: 0, paddingLeft: 18, listStyle: "disc inside" }}>
-                                      {((node.correlativasAprobar ?? node.correlativas) ?? []).length === 0 && (
+                                      {/* Mostrar año completo como un item más */}
+                                      {(node.requiresYearsApprovedAprobar && node.requiresYearsApprovedAprobar.length > 0) && node.requiresYearsApprovedAprobar.map((year) => {
+                                        const yearNodes = map.nodes.filter(n => n.year === year);
+                                        const ok = yearNodes.every(n => states[n.id] === "APROBADA");
+                                        return (
+                                          <li key={"aprobar-" + year} style={ok ? { color: '#111' } : { color: '#b91c1c', fontWeight: 600 }}>
+                                            Requiere {year}° año completo {ok ? '' : ' - FALTA'}
+                                          </li>
+                                        );
+                                      })}
+                                      {/* Si no hay correlativas ni año completo, mostrar sin correlativas */}
+                                      {(((!node.correlativasAprobar || node.correlativasAprobar.length === 0) && (!node.requiresYearsApprovedAprobar || node.requiresYearsApprovedAprobar.length === 0)) && (!node.correlativas || node.correlativas.length === 0)) && (
                                         <li key="ok" className="no-correlativas">
                                           <span className="dot-black" style={{ color: '#111', fontWeight: 500 }}>•</span> <span style={{ color: '#111', fontWeight: 500 }}>Sin correlativas</span>
                                         </li>
