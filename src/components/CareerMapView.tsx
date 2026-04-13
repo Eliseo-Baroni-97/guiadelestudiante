@@ -183,8 +183,8 @@ export const CareerMapView: React.FC<Props> = ({ map }) => {
                                         const name = subject ? subject.name : prereq.subjectId;
                                         const ok = (prereq.requiredState === "REGULAR" && (actual === "REGULAR" || actual === "APROBADA")) || (prereq.requiredState === "APROBADA" && actual === "APROBADA");
                                         return (
-                                          <li key={prereq.subjectId + prereq.requiredState} style={ok ? {} : { color: '#b91c1c', fontWeight: 600 }}>
-                                            {name} ({prereq.requiredState}) {ok ? '' : ' - FALTA'}
+                                          <li key={prereq.subjectId + prereq.requiredState} style={ok ? { color: '#111', fontWeight: 500 } : { color: '#b91c1c', fontWeight: 600 }}>
+                                            {name} ({prereq.requiredState}){ok ? '' : ' - FALTA'}
                                           </li>
                                         );
                                       })}
