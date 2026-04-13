@@ -128,32 +128,21 @@ export const CareerMapView: React.FC<Props> = ({ map }) => {
                                   top = rect.top - tooltipHeight - margin;
                                   prefered = 'top';
                                 }
-                                // Si arriba se sale del viewport, forzar abajo
+                                // Si abajo se sale del viewport, mostrar arriba de la materia
+                                if (prefered !== 'top' && (top + tooltipHeight > window.innerHeight - margin)) {
+                                  top = rect.top - tooltipHeight - margin;
+                                  prefered = 'top';
+                                }
+                                // Si arriba se sale del viewport, pegar al borde superior
                                 if (prefered === 'top' && top < margin) {
-                                  top = rect.bottom + margin;
+                                  top = margin;
                                 }
                                 // Ajustar left si se sale del viewport
                                 if (left + tooltipWidth > window.innerWidth - margin) {
                                   left = window.innerWidth - tooltipWidth - margin;
                                 }
                                 if (left < margin) left = margin;
-
-                                // Calcular altura máxima dinámica para evitar corte
-                                let maxHeight = tooltipHeight;
-                                if (top + tooltipHeight > window.innerHeight - margin) {
-                                  maxHeight = window.innerHeight - top - margin;
-                                  if (maxHeight < 120) {
-                                    // Si ni siquiera entra abajo, pegar arriba y ajustar
-                                    top = window.innerHeight - margin - tooltipHeight;
-                                    if (top < margin) {
-                                      top = margin;
-                                      maxHeight = window.innerHeight - 2 * margin;
-                                    } else {
-                                      maxHeight = window.innerHeight - top - margin;
-                                    }
-                                  }
-                                }
-                                setTooltipPos({ top, left, maxHeight });
+                                setTooltipPos({ top, left });
                               }}
                               onMouseLeave={() => {
                                 setHoveredId(null);
@@ -195,8 +184,6 @@ export const CareerMapView: React.FC<Props> = ({ map }) => {
                                     width: 320,
                                     maxWidth: '90vw',
                                     zIndex: 9999,
-                                    maxHeight: tooltipPos.maxHeight,
-                                    overflowY: tooltipPos.maxHeight && tooltipPos.maxHeight < 340 ? 'auto' : undefined,
                                   }}
                                   onMouseEnter={() => setHoveredId(node.id)}
                                   onMouseLeave={() => {
