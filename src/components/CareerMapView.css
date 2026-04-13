@@ -109,6 +109,11 @@
   margin: 2px 0;
 }
 
+.cmTooltip li.no-correlativas {
+  color: #111 !important;
+  font-weight: 500;
+}
+
 .nodeWrapper {
   position: relative;
   overflow: visible;
