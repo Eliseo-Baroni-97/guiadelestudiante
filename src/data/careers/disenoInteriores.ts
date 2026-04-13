@@ -172,7 +172,6 @@ export const disenoInteriores: CareerMap = {
       name: "Diseño de Equipamiento I",
       year: 3,
       correlativasCursar: [
-        { subjectId: "anio1_completo", requiredState: "APROBADA" },
         { subjectId: "diseno_interiores_1", requiredState: "APROBADA" },
         { subjectId: "lenguaje_visual_2", requiredState: "APROBADA" },
         { subjectId: "tecnologia_materiales_1", requiredState: "REGULAR" },
@@ -183,17 +182,14 @@ export const disenoInteriores: CareerMap = {
       ],
       cuatrimestre: 3,
       duration: "ANUAL",
+      requiresYearsApproved: [1],
     },
     {
       id: "estetica",
       name: "Estética",
       year: 3,
-      correlativasCursar: [
-        { subjectId: "anio1_completo", requiredState: "APROBADA" },
-      ],
-      correlativasAprobar: [
-        { subjectId: "anio1_completo", requiredState: "APROBADA" },
-      ],
+      correlativasCursar: [],
+      correlativasAprobar: [],
       cuatrimestre: 3,
       duration: "ANUAL",
       requiresYearsApproved: [1],
@@ -203,7 +199,6 @@ export const disenoInteriores: CareerMap = {
       name: "Organización y Práctica Profesional",
       year: 3,
       correlativasCursar: [
-        { subjectId: "anio1_completo", requiredState: "APROBADA" },
         { subjectId: "tecnologia_materiales_1", requiredState: "REGULAR" },
         { subjectId: "confort_ambiental", requiredState: "REGULAR" },
       ],
@@ -213,6 +208,7 @@ export const disenoInteriores: CareerMap = {
       ],
       cuatrimestre: 3,
       duration: "ANUAL",
+      requiresYearsApproved: [1],
     },
 
     // 4° AÑO
