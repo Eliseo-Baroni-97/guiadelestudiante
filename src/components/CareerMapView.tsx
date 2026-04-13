@@ -110,22 +110,33 @@ export const CareerMapView: React.FC<Props> = ({ map }) => {
                                 setHoveredId(node.id);
                                 // Calcular posición para el portal
                                 const rect = (e.currentTarget as HTMLDivElement).getBoundingClientRect();
-                                // Preferentemente a la derecha, pero si no entra, a la izquierda
                                 const tooltipWidth = 320;
+                                const tooltipHeight = 340;
                                 const margin = 8;
                                 let left = rect.right + margin;
+                                let top = rect.top;
+                                let prefered = 'right';
+                                // Si no entra a la derecha, probar izquierda
                                 if (left + tooltipWidth > window.innerWidth) {
                                   left = rect.left - tooltipWidth - margin;
+                                  prefered = 'left';
                                 }
-                                // Si tampoco entra a la izquierda, forzar dentro del viewport
-                                if (left < 0) left = margin;
-                                let top = rect.top;
-                                // Si se sale por abajo, ajustar
-                                const tooltipHeight = 340;
-                                if (top + tooltipHeight > window.innerHeight) {
+                                // Si tampoco entra a la izquierda, probar arriba (centrado respecto a la materia)
+                                if (left < 0) {
+                                  left = rect.left + (rect.width / 2) - (tooltipWidth / 2);
+                                  if (left < margin) left = margin;
+                                  top = rect.top - tooltipHeight - margin;
+                                  prefered = 'top';
+                                }
+                                // Si arriba se sale del viewport, forzar abajo
+                                if (prefered === 'top' && top < margin) {
+                                  top = margin;
+                                }
+                                // Si abajo se sale del viewport, ajustar
+                                if (prefered !== 'top' && top + tooltipHeight > window.innerHeight) {
                                   top = window.innerHeight - tooltipHeight - margin;
                                 }
-                                if (top < 0) top = margin;
+                                if (top < margin) top = margin;
                                 setTooltipPos({ top, left });
                               }}
                               onMouseLeave={() => {
