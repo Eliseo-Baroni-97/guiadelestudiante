@@ -167,8 +167,6 @@ export const CareerMapView: React.FC<Props> = ({ map }) => {
                                     left: tooltipPos.left,
                                     width: 320,
                                     maxWidth: '90vw',
-                                    maxHeight: 340,
-                                    overflowY: 'auto',
                                     zIndex: 9999,
                                   }}
                                   onMouseEnter={() => setHoveredId(node.id)}
