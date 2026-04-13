@@ -227,7 +227,7 @@ export const CareerMapView: React.FC<Props> = ({ map }) => {
                                       })}
                                       {/* Si no hay correlativas ni año completo, mostrar sin correlativas */}
                                       {((!node.correlativasCursar || node.correlativasCursar.length === 0) && (!node.requiresYearsApprovedCursar || node.requiresYearsApprovedCursar.length === 0)) && (
-                                        <li key="ok" className="no-correlativas">
+                                        <li key="ok" className="no-correlativas" style={{ listStyle: 'none', paddingLeft: 0 }}>
                                           <span className="dot-black">•</span> <span style={{ color: '#111', fontWeight: 500 }}>Sin correlativas</span>
                                         </li>
                                       )}
@@ -262,7 +262,7 @@ export const CareerMapView: React.FC<Props> = ({ map }) => {
                                       })}
                                       {/* Si no hay correlativas ni año completo, mostrar sin correlativas */}
                                       {(((!node.correlativasAprobar || node.correlativasAprobar.length === 0) && (!node.requiresYearsApprovedAprobar || node.requiresYearsApprovedAprobar.length === 0)) && (!node.correlativas || node.correlativas.length === 0)) && (
-                                        <li key="ok" className="no-correlativas">
+                                        <li key="ok" className="no-correlativas" style={{ listStyle: 'none', paddingLeft: 0 }}>
                                           <span className="dot-black" style={{ color: '#111', fontWeight: 500 }}>•</span> <span style={{ color: '#111', fontWeight: 500 }}>Sin correlativas</span>
                                         </li>
                                       )}
