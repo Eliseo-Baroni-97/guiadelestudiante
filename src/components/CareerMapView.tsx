@@ -135,28 +135,29 @@ export const CareerMapView: React.FC<Props> = ({ map }) => {
                                   {/* Mostrar requisitos de año completo para cursar/aprobar con colores */}
                                   {(node.requiresYearsApprovedCursar && node.requiresYearsApprovedCursar.length > 0) && (
                                     <div style={{ fontWeight: 500, fontSize: 14, marginBottom: 2 }}>
-                                      {node.requiresYearsApprovedCursar.map(year => {
-                                        // ¿Cumple el año completo para cursar?
+                                      {node.requiresYearsApprovedCursar.map((year, idx, arr) => {
                                         const yearNodes = map.nodes.filter(n => n.year === year);
                                         const ok = yearNodes.every(n => states[n.id] === "APROBADA");
+                                        // Solo un punto al final de la frase
+                                        const isLast = idx === arr.length - 1;
                                         return (
-                                          <div key={"cursar-" + year} style={ok ? { color: '#111' } : { color: '#b91c1c', fontWeight: 600 }}>
-                                            Requiere {year}° año completo para <b>cursar</b>{ok ? '' : ' - FALTA'}
-                                          </div>
+                                          <span key={"cursar-" + year} style={ok ? { color: '#111' } : { color: '#b91c1c', fontWeight: 600 }}>
+                                            Requiere {year}° año completo para <b>cursar</b>{ok ? '' : ' - FALTA'}{!isLast ? ', ' : '.'}
+                                          </span>
                                         );
                                       })}
                                     </div>
                                   )}
                                   {(node.requiresYearsApprovedAprobar && node.requiresYearsApprovedAprobar.length > 0) && (
                                     <div style={{ fontWeight: 500, fontSize: 14, marginBottom: 2 }}>
-                                      {node.requiresYearsApprovedAprobar.map(year => {
-                                        // ¿Cumple el año completo para aprobar?
+                                      {node.requiresYearsApprovedAprobar.map((year, idx, arr) => {
                                         const yearNodes = map.nodes.filter(n => n.year === year);
                                         const ok = yearNodes.every(n => states[n.id] === "APROBADA");
+                                        const isLast = idx === arr.length - 1;
                                         return (
-                                          <div key={"aprobar-" + year} style={ok ? { color: '#111' } : { color: '#b91c1c', fontWeight: 600 }}>
-                                            Requiere {year}° año completo para <b>aprobar</b>{ok ? '' : ' - FALTA'}
-                                          </div>
+                                          <span key={"aprobar-" + year} style={ok ? { color: '#111' } : { color: '#b91c1c', fontWeight: 600 }}>
+                                            Requiere {year}° año completo para <b>aprobar</b>{ok ? '' : ' - FALTA'}{!isLast ? ', ' : '.'}
+                                          </span>
                                         );
                                       })}
                                     </div>
