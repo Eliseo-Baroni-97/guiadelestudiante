@@ -25,9 +25,10 @@ export function isUnlockedByPrereqsList(prereqs: Prereq[] | undefined, states: R
 // Compatibilidad: correlativasCursar ausente => []
 export function canEnroll(node: SubjectNode, map: CareerMap, states: Record<string, SubjectState>): boolean {
   const prereqs = node.correlativasCursar ?? [];
-  // Verificar años completos si corresponde
-  if (node.requiresYearsApproved && node.requiresYearsApproved.length > 0) {
-    for (const year of node.requiresYearsApproved) {
+  // Verificar años completos para cursar
+  const yearsCursar = node.requiresYearsApprovedCursar ?? node.requiresYearsApproved;
+  if (yearsCursar && yearsCursar.length > 0) {
+    for (const year of yearsCursar) {
       const yearNodes = map.nodes.filter(n => n.year === year);
       if (!yearNodes.every(n => getState(states, n.id) === "APROBADA")) {
         return false;
@@ -40,9 +41,10 @@ export function canEnroll(node: SubjectNode, map: CareerMap, states: Record<stri
 // Compatibilidad: correlativasAprobar ausente => correlativas legacy o []
 export function canApprove(node: SubjectNode, map: CareerMap, states: Record<string, SubjectState>): boolean {
   const prereqs = node.correlativasAprobar ?? node.correlativas ?? [];
-  // Verificar años completos si corresponde
-  if (node.requiresYearsApproved && node.requiresYearsApproved.length > 0) {
-    for (const year of node.requiresYearsApproved) {
+  // Verificar años completos para aprobar
+  const yearsAprobar = node.requiresYearsApprovedAprobar ?? node.requiresYearsApproved;
+  if (yearsAprobar && yearsAprobar.length > 0) {
+    for (const year of yearsAprobar) {
       const yearNodes = map.nodes.filter(n => n.year === year);
       if (!yearNodes.every(n => getState(states, n.id) === "APROBADA")) {
         return false;

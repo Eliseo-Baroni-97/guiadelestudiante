@@ -144,7 +144,8 @@ export const disenoInteriores: CareerMap = {
       correlativasCursar: [
         { subjectId: "historia_diseno_interiores_equipamiento_1", requiredState: "REGULAR" },
       ],
-      requiresYearsApproved: [1],
+      requiresYearsApprovedCursar: [1],
+      requiresYearsApprovedAprobar: [1],
       correlativasAprobar: [
         { subjectId: "historia_diseno_interiores_equipamiento_1", requiredState: "APROBADA" },
       ],
@@ -236,7 +237,8 @@ export const disenoInteriores: CareerMap = {
       correlativasCursar: [
         { subjectId: "historia_diseno_interiores_equipamiento_2", requiredState: "REGULAR" },
       ],
-      requiresYearsApproved: [1, 2],
+      requiresYearsApprovedCursar: [1, 2],
+      requiresYearsApprovedAprobar: [1, 2],
       correlativasAprobar: [
         { subjectId: "historia_diseno_interiores_equipamiento_2", requiredState: "APROBADA" },
       ],

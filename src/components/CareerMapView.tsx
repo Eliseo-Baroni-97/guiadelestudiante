@@ -132,6 +132,35 @@ export const CareerMapView: React.FC<Props> = ({ map }) => {
                               </button>
                               {hoveredId === node.id && (
                                 <div className="cmTooltip">
+                                  {/* Mostrar requisitos de año completo para cursar/aprobar con colores */}
+                                  {(node.requiresYearsApprovedCursar && node.requiresYearsApprovedCursar.length > 0) && (
+                                    <div style={{ fontWeight: 500, fontSize: 14, marginBottom: 2 }}>
+                                      {node.requiresYearsApprovedCursar.map(year => {
+                                        // ¿Cumple el año completo para cursar?
+                                        const yearNodes = map.nodes.filter(n => n.year === year);
+                                        const ok = yearNodes.every(n => states[n.id] === "APROBADA");
+                                        return (
+                                          <div key={"cursar-" + year} style={ok ? { color: '#111' } : { color: '#b91c1c', fontWeight: 600 }}>
+                                            Requiere {year}° año completo para <b>cursar</b>{ok ? '' : ' - FALTA'}
+                                          </div>
+                                        );
+                                      })}
+                                    </div>
+                                  )}
+                                  {(node.requiresYearsApprovedAprobar && node.requiresYearsApprovedAprobar.length > 0) && (
+                                    <div style={{ fontWeight: 500, fontSize: 14, marginBottom: 2 }}>
+                                      {node.requiresYearsApprovedAprobar.map(year => {
+                                        // ¿Cumple el año completo para aprobar?
+                                        const yearNodes = map.nodes.filter(n => n.year === year);
+                                        const ok = yearNodes.every(n => states[n.id] === "APROBADA");
+                                        return (
+                                          <div key={"aprobar-" + year} style={ok ? { color: '#111' } : { color: '#b91c1c', fontWeight: 600 }}>
+                                            Requiere {year}° año completo para <b>aprobar</b>{ok ? '' : ' - FALTA'}
+                                          </div>
+                                        );
+                                      })}
+                                    </div>
+                                  )}
                                   <div style={{ fontWeight: 600, fontSize: 17, marginBottom: 2 }}>{node.name}</div>
                                   <div style={{ marginBottom: 4 }}>
                                     Estado: <b>{
