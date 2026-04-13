@@ -16,6 +16,7 @@ const Navbar: React.FC = () => (
         <li><Link to="#">Carreras</Link></li>
         <li><Link to="#">Horarios</Link></li>
         <li><Link to="#">Planes de estudio</Link></li>
+        <li><Link to="/correlativas">Guía de correlativas</Link></li>
         <li><Link to="#">FAQ</Link></li>
       </ul>
     </div>
