@@ -196,6 +196,7 @@ export const disenoInteriores: CareerMap = {
       ],
       cuatrimestre: 3,
       duration: "ANUAL",
+      requiresYearsApproved: [1],
     },
     {
       id: "organizacion_practica_profesional",
