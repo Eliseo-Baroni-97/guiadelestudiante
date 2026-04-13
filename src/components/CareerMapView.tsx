@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./CareerMapView.css";
 import type { CareerMap } from "../domain/types";
-import { canEnroll, canApprove, getMissingReasonsEnroll, getMissingReasonsApprove } from "../domain/unlock";
+import { canEnroll, canApprove } from "../domain/unlock";
 import {
   advanceSubjectState,
   loadProgress,
@@ -157,7 +157,7 @@ export const CareerMapView: React.FC<Props> = ({ map }) => {
                                     </div>
                                     <ul style={{ fontSize: 14, margin: 0, paddingLeft: 18, listStyle: "disc inside" }}>
                                       {(node.correlativasCursar ?? []).length === 0 && <li key="ok">Sin correlativas</li>}
-                                      {(node.correlativasCursar ?? []).map((prereq, i) => {
+                                      {(node.correlativasCursar ?? []).map((prereq) => {
                                         const actual = states[prereq.subjectId] ?? "NO_APROBADA";
                                         const subject = map.nodes.find(n => n.id === prereq.subjectId);
                                         const name = subject ? subject.name : prereq.subjectId;
@@ -177,7 +177,7 @@ export const CareerMapView: React.FC<Props> = ({ map }) => {
                                     </div>
                                     <ul style={{ fontSize: 14, margin: 0, paddingLeft: 18, listStyle: "disc inside" }}>
                                       {((node.correlativasAprobar ?? node.correlativas) ?? []).length === 0 && <li key="ok">Sin correlativas</li>}
-                                      {((node.correlativasAprobar ?? node.correlativas) ?? []).map((prereq, i) => {
+                                      {((node.correlativasAprobar ?? node.correlativas) ?? []).map((prereq) => {
                                         const actual = states[prereq.subjectId] ?? "NO_APROBADA";
                                         const subject = map.nodes.find(n => n.id === prereq.subjectId);
                                         const name = subject ? subject.name : prereq.subjectId;
