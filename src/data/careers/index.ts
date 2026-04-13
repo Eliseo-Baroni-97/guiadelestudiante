@@ -1,6 +1,6 @@
 import type { CareerMap } from "../../domain/types";
 import { materiasCarrera } from "../materiasCarrera";
-// import { mockCareer } from "./mockCareer";
+// (mockCareer eliminado)
 import { fotografia } from "./fotografia";
 import { disenoInteriores } from "./disenoInteriores";
 
