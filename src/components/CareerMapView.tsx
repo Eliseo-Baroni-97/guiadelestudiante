@@ -156,7 +156,11 @@ export const CareerMapView: React.FC<Props> = ({ map }) => {
                                       Requisitos para cursar:
                                     </div>
                                     <ul style={{ fontSize: 14, margin: 0, paddingLeft: 18, listStyle: "disc inside" }}>
-                                      {(node.correlativasCursar ?? []).length === 0 && <li key="ok">Sin correlativas</li>}
+                                      {(node.correlativasCursar ?? []).length === 0 && (
+                                        <li key="ok" className="no-correlativas">
+                                          <span className="dot-black">•</span> <span style={{ color: '#111', fontWeight: 500 }}>Sin correlativas</span>
+                                        </li>
+                                      )}
                                       {(node.correlativasCursar ?? []).map((prereq) => {
                                         const actual = states[prereq.subjectId] ?? "NO_APROBADA";
                                         const subject = map.nodes.find(n => n.id === prereq.subjectId);
