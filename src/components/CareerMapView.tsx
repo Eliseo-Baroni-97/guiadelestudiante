@@ -172,11 +172,11 @@ export const CareerMapView: React.FC<Props> = ({ map }) => {
                                   </div>
                                   {/* Mostrar TODOS los requisitos para aprobar */}
                                   <div style={{ marginTop: 6 }}>
-                                    <div style={{ color: "#ca8a04", fontWeight: 500, fontSize: 14, marginBottom: 2 }}>
+                                    <div style={{ color: "#16a34a", fontWeight: 600, fontSize: 14, marginBottom: 2 }}>
                                       Requisitos para aprobar:
                                     </div>
                                     <ul style={{ fontSize: 14, margin: 0, paddingLeft: 18, listStyle: "disc inside" }}>
-                                      {((node.correlativasAprobar ?? node.correlativas) ?? []).length === 0 && <li key="ok">Sin correlativas</li>}
+                                      {((node.correlativasAprobar ?? node.correlativas) ?? []).length === 0 && <li key="ok" style={{ color: '#111', fontWeight: 500 }}>Sin correlativas</li>}
                                       {((node.correlativasAprobar ?? node.correlativas) ?? []).map((prereq) => {
                                         const actual = states[prereq.subjectId] ?? "NO_APROBADA";
                                         const subject = map.nodes.find(n => n.id === prereq.subjectId);
