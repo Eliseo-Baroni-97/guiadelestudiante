@@ -130,13 +130,23 @@ export const CareerMapView: React.FC<Props> = ({ map }) => {
                                 }
                                 // Si arriba se sale del viewport, forzar abajo
                                 if (prefered === 'top' && top < margin) {
-                                  top = margin;
+                                  top = rect.bottom + margin;
+                                  // Si tampoco entra abajo, pegar al borde inferior
+                                  if (top + tooltipHeight > window.innerHeight - margin) {
+                                    top = window.innerHeight - tooltipHeight - margin;
+                                  }
                                 }
                                 // Si abajo se sale del viewport, ajustar
-                                if (prefered !== 'top' && top + tooltipHeight > window.innerHeight) {
+                                if (prefered !== 'top' && top + tooltipHeight > window.innerHeight - margin) {
                                   top = window.innerHeight - tooltipHeight - margin;
                                 }
+                                // Si top sigue siendo menor al margen, pegar al borde superior
                                 if (top < margin) top = margin;
+                                // Ajustar left si se sale del viewport
+                                if (left + tooltipWidth > window.innerWidth - margin) {
+                                  left = window.innerWidth - tooltipWidth - margin;
+                                }
+                                if (left < margin) left = margin;
                                 setTooltipPos({ top, left });
                               }}
                               onMouseLeave={() => {
