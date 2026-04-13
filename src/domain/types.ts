@@ -20,6 +20,7 @@ export interface SubjectNode {
   correlativasAprobar?: Prereq[];
   duration?: SubjectDuration;
   cuatrimestre?: number;
+  requiresYearsApproved?: number[]; // años completos requeridos para cursar/aprobar
 }
 
 export interface CareerMap {

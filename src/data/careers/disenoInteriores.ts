@@ -8,50 +8,6 @@ export const disenoInteriores: CareerMap = {
     priorYearsApproved: false,
   },
   nodes: [
-    // NODOS AUXILIARES PARA AÑOS COMPLETOS
-    // Estos sirven para representar reglas como:
-    // "para cursar 3° año tener aprobado 1° año"
-    // "para cursar 4° año tener aprobados 1° y 2° años completos"
-    {
-      id: "anio1_completo",
-      name: "1° Año Completo",
-      year: 1,
-      correlativasCursar: [
-        { subjectId: "intro_diseno_proyectual", requiredState: "APROBADA" },
-        { subjectId: "lenguaje_visual_1", requiredState: "APROBADA" },
-        { subjectId: "sistemas_representacion", requiredState: "APROBADA" },
-        { subjectId: "cultura_diseno", requiredState: "APROBADA" },
-      ],
-      correlativasAprobar: [
-        { subjectId: "intro_diseno_proyectual", requiredState: "APROBADA" },
-        { subjectId: "lenguaje_visual_1", requiredState: "APROBADA" },
-        { subjectId: "sistemas_representacion", requiredState: "APROBADA" },
-        { subjectId: "cultura_diseno", requiredState: "APROBADA" },
-      ],
-      cuatrimestre: 0,
-      duration: "ANUAL",
-    },
-    {
-      id: "anio2_completo",
-      name: "2° Año Completo",
-      year: 2,
-      correlativasCursar: [
-        { subjectId: "diseno_interiores_1", requiredState: "APROBADA" },
-        { subjectId: "lenguaje_visual_2", requiredState: "APROBADA" },
-        { subjectId: "historia_diseno_interiores_equipamiento_1", requiredState: "APROBADA" },
-        { subjectId: "tecnologia_materiales_1", requiredState: "APROBADA" },
-        { subjectId: "confort_ambiental", requiredState: "APROBADA" },
-      ],
-      correlativasAprobar: [
-        { subjectId: "diseno_interiores_1", requiredState: "APROBADA" },
-        { subjectId: "lenguaje_visual_2", requiredState: "APROBADA" },
-        { subjectId: "historia_diseno_interiores_equipamiento_1", requiredState: "APROBADA" },
-        { subjectId: "tecnologia_materiales_1", requiredState: "APROBADA" },
-        { subjectId: "confort_ambiental", requiredState: "APROBADA" },
-      ],
-      cuatrimestre: 0,
-      duration: "ANUAL",
-    },
 
     // 1° AÑO
     {
@@ -168,12 +124,12 @@ export const disenoInteriores: CareerMap = {
       name: "Diseño de Interiores II",
       year: 3,
       correlativasCursar: [
-        { subjectId: "anio1_completo", requiredState: "APROBADA" },
         { subjectId: "diseno_interiores_1", requiredState: "APROBADA" },
         { subjectId: "lenguaje_visual_2", requiredState: "APROBADA" },
         { subjectId: "confort_ambiental", requiredState: "REGULAR" },
         { subjectId: "tecnologia_materiales_1", requiredState: "REGULAR" },
       ],
+      requiresYearsApproved: [1],
       correlativasAprobar: [
         { subjectId: "diseno_interiores_1", requiredState: "APROBADA" },
         { subjectId: "lenguaje_visual_2", requiredState: "APROBADA" },
@@ -186,9 +142,9 @@ export const disenoInteriores: CareerMap = {
       name: "Historia del Diseño de Interiores y Equipamiento II",
       year: 3,
       correlativasCursar: [
-        { subjectId: "anio1_completo", requiredState: "APROBADA" },
         { subjectId: "historia_diseno_interiores_equipamiento_1", requiredState: "REGULAR" },
       ],
+      requiresYearsApproved: [1],
       correlativasAprobar: [
         { subjectId: "historia_diseno_interiores_equipamiento_1", requiredState: "APROBADA" },
       ],
@@ -200,10 +156,10 @@ export const disenoInteriores: CareerMap = {
       name: "Tecnología de los Materiales II",
       year: 3,
       correlativasCursar: [
-        { subjectId: "anio1_completo", requiredState: "APROBADA" },
         { subjectId: "tecnologia_materiales_1", requiredState: "REGULAR" },
         { subjectId: "confort_ambiental", requiredState: "REGULAR" },
       ],
+      requiresYearsApproved: [1],
       correlativasAprobar: [
         { subjectId: "tecnologia_materiales_1", requiredState: "APROBADA" },
         { subjectId: "confort_ambiental", requiredState: "APROBADA" },
@@ -264,12 +220,11 @@ export const disenoInteriores: CareerMap = {
       name: "Diseño de Interiores III",
       year: 4,
       correlativasCursar: [
-        { subjectId: "anio1_completo", requiredState: "APROBADA" },
-        { subjectId: "anio2_completo", requiredState: "APROBADA" },
         { subjectId: "diseno_interiores_2", requiredState: "APROBADA" },
         { subjectId: "diseno_equipamiento_1", requiredState: "APROBADA" },
         { subjectId: "tecnologia_materiales_2", requiredState: "REGULAR" },
       ],
+      requiresYearsApproved: [1, 2],
       correlativasAprobar: [
         { subjectId: "diseno_interiores_2", requiredState: "APROBADA" },
         { subjectId: "diseno_equipamiento_1", requiredState: "APROBADA" },
@@ -282,10 +237,9 @@ export const disenoInteriores: CareerMap = {
       name: "Historia del Diseño de Interiores y Equipamiento III",
       year: 4,
       correlativasCursar: [
-        { subjectId: "anio1_completo", requiredState: "APROBADA" },
-        { subjectId: "anio2_completo", requiredState: "APROBADA" },
         { subjectId: "historia_diseno_interiores_equipamiento_2", requiredState: "REGULAR" },
       ],
+      requiresYearsApproved: [1, 2],
       correlativasAprobar: [
         { subjectId: "historia_diseno_interiores_equipamiento_2", requiredState: "APROBADA" },
       ],
@@ -297,12 +251,11 @@ export const disenoInteriores: CareerMap = {
       name: "Diseño de Equipamiento II",
       year: 4,
       correlativasCursar: [
-        { subjectId: "anio1_completo", requiredState: "APROBADA" },
-        { subjectId: "anio2_completo", requiredState: "APROBADA" },
         { subjectId: "diseno_equipamiento_1", requiredState: "APROBADA" },
         { subjectId: "diseno_interiores_2", requiredState: "APROBADA" },
         { subjectId: "tecnologia_materiales_2", requiredState: "REGULAR" },
       ],
+      requiresYearsApproved: [1, 2],
       correlativasAprobar: [
         { subjectId: "diseno_equipamiento_1", requiredState: "APROBADA" },
         { subjectId: "diseno_interiores_2", requiredState: "APROBADA" },
@@ -315,11 +268,10 @@ export const disenoInteriores: CareerMap = {
       name: "Legislación y Ética Profesional",
       year: 4,
       correlativasCursar: [
-        { subjectId: "anio1_completo", requiredState: "APROBADA" },
-        { subjectId: "anio2_completo", requiredState: "APROBADA" },
         { subjectId: "organizacion_practica_profesional", requiredState: "REGULAR" },
         { subjectId: "tecnologia_materiales_2", requiredState: "REGULAR" },
       ],
+      requiresYearsApproved: [1, 2],
       correlativasAprobar: [
         { subjectId: "organizacion_practica_profesional", requiredState: "APROBADA" },
         { subjectId: "tecnologia_materiales_2", requiredState: "APROBADA" },
@@ -332,10 +284,8 @@ export const disenoInteriores: CareerMap = {
       name: "Psicología Específica",
       year: 4,
       correlativasCursar: [],
-      correlativasAprobar: [
-        { subjectId: "anio1_completo", requiredState: "APROBADA" },
-        { subjectId: "anio2_completo", requiredState: "APROBADA" },
-      ],
+      correlativasAprobar: [],
+      requiresYearsApproved: [1, 2],
       cuatrimestre: 4,
       duration: "ANUAL",
     },
@@ -343,10 +293,8 @@ export const disenoInteriores: CareerMap = {
       id: "electiva_obligatoria_1",
       name: "Electiva Obligatoria I",
       year: 4,
-      correlativasCursar: [
-        { subjectId: "anio1_completo", requiredState: "APROBADA" },
-        { subjectId: "anio2_completo", requiredState: "APROBADA" },
-      ],
+      correlativasCursar: [],
+      requiresYearsApproved: [1, 2],
       correlativasAprobar: [],
       cuatrimestre: 4,
       duration: "ANUAL",
@@ -355,10 +303,8 @@ export const disenoInteriores: CareerMap = {
       id: "electiva_obligatoria_2",
       name: "Electiva Obligatoria II",
       year: 4,
-      correlativasCursar: [
-        { subjectId: "anio1_completo", requiredState: "APROBADA" },
-        { subjectId: "anio2_completo", requiredState: "APROBADA" },
-      ],
+      correlativasCursar: [],
+      requiresYearsApproved: [1, 2],
       correlativasAprobar: [],
       cuatrimestre: 4,
       duration: "ANUAL",
