@@ -99,7 +99,7 @@ export const CareerMapView: React.FC<Props> = ({ map }) => {
                           // Deshabilitar botón si no puede cursar o aprobar según estado
                           let disabled = false;
                           if (state === "NO_APROBADA" && !canEnrollNow) disabled = true;
-                          if (state === "REGULAR" && !canApproveNow) disabled = true;
+                          if (state === "REGULAR" && !canEnrollNow) disabled = true;
                           return (
                             <div
                               className="nodeWrapper"
