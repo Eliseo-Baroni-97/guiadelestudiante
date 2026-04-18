@@ -15,7 +15,7 @@ export function normalizeProgressStates(map: CareerMap, progress: Progress): Pro
 
       if (current === "APROBADA" && !canApprove(node, map, newStates)) {
         next = "NO_APROBADA";
-      } else if (current === "REGULAR" && !canApprove(node, map, newStates)) {
+      } else if (current === "REGULAR" && !canEnroll(node, map, newStates)) {
         next = "NO_APROBADA";
       } else if (current === "CURSANDO" && !canEnroll(node, map, newStates)) {
         next = "NO_APROBADA";
