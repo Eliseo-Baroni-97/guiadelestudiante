@@ -3,6 +3,6 @@ import { materiasCarrera } from "../materiasCarrera";
 // (mockCareer eliminado)
 import { fotografia } from "./fotografia";
 import { disenoInteriores } from "./disenoInteriores";
-import { licenciaturaSonido } from "./diseñoSonido";
+import { diseñoSonido } from "./diseñoSonido";
 
-export const careers: CareerMap[] = [materiasCarrera, fotografia, disenoInteriores, licenciaturaSonido];
+export const careers: CareerMap[] = [materiasCarrera, fotografia, disenoInteriores, diseñoSonido];
