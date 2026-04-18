@@ -1,8 +1,8 @@
 import type { CareerMap } from "../../domain/types";
 
-export const licenciaturaSonido: CareerMap = {
-  id: "lic-sonido",
-  name: "Licenciatura en Sonido",
+export const diseñoSonido: CareerMap = {
+  id: "diseñodesonido",
+  name: "Licenciatura en Diseño de Sonido",
   version: 1,
   policy: {
     priorYearsApproved: false,
@@ -79,7 +79,7 @@ export const licenciaturaSonido: CareerMap = {
       name: "Audioperceptiva II",
       year: 2,
       correlativasCursar: [
-        { subjectId: "audioperceptiva_1", requiredState: "APROBADA" },
+        { subjectId: "audioperceptiva_1", requiredState: "REGULAR" },
       ],
       correlativasAprobar: [
         { subjectId: "audioperceptiva_1", requiredState: "APROBADA" },
@@ -92,7 +92,7 @@ export const licenciaturaSonido: CareerMap = {
       name: "Piano Aplicado II",
       year: 2,
       correlativasCursar: [
-        { subjectId: "piano_aplicado_1", requiredState: "APROBADA" },
+        { subjectId: "piano_aplicado_1", requiredState: "REGULAR" },
       ],
       correlativasAprobar: [
         { subjectId: "audioperceptiva_1", requiredState: "APROBADA" },
@@ -106,7 +106,7 @@ export const licenciaturaSonido: CareerMap = {
       name: "Historia de la Música II",
       year: 2,
       correlativasCursar: [
-        { subjectId: "historia_musica_1", requiredState: "APROBADA" },
+        { subjectId: "historia_musica_1", requiredState: "REGULAR" },
       ],
       correlativasAprobar: [
         { subjectId: "historia_musica_1", requiredState: "APROBADA" },
@@ -119,7 +119,7 @@ export const licenciaturaSonido: CareerMap = {
       name: "Elementos Básicos de Composición I",
       year: 2,
       correlativasCursar: [
-        { subjectId: "audioperceptiva_1", requiredState: "APROBADA" },
+        { subjectId: "audioperceptiva_1", requiredState: "REGULAR" },
       ],
       correlativasAprobar: [
         { subjectId: "audioperceptiva_1", requiredState: "APROBADA" },
@@ -133,7 +133,7 @@ export const licenciaturaSonido: CareerMap = {
       name: "Acústica II",
       year: 2,
       correlativasCursar: [
-        { subjectId: "acustica_1", requiredState: "APROBADA" },
+        { subjectId: "acustica_1", requiredState: "REGULAR" },
       ],
       correlativasAprobar: [
         { subjectId: "acustica_1", requiredState: "APROBADA" },
@@ -146,8 +146,8 @@ export const licenciaturaSonido: CareerMap = {
       name: "Electrónica Aplicada II",
       year: 2,
       correlativasCursar: [
-        { subjectId: "tecnicas_sonorizacion_1", requiredState: "APROBADA" },
-        { subjectId: "electronica_aplicada_1", requiredState: "APROBADA" },
+        { subjectId: "tecnicas_sonorizacion_1", requiredState: "REGULAR" },
+        { subjectId: "electronica_aplicada_1", requiredState: "REGULAR" },
       ],
       correlativasAprobar: [
         { subjectId: "electronica_aplicada_1", requiredState: "APROBADA" },
@@ -160,9 +160,9 @@ export const licenciaturaSonido: CareerMap = {
       name: "Técnicas de Sonorización II",
       year: 2,
       correlativasCursar: [
-        { subjectId: "acustica_1", requiredState: "APROBADA" },
-        { subjectId: "tecnicas_sonorizacion_1", requiredState: "APROBADA" },
-        { subjectId: "electronica_aplicada_1", requiredState: "APROBADA" },
+        { subjectId: "acustica_1", requiredState: "REGULAR" },
+        { subjectId: "tecnicas_sonorizacion_1", requiredState: "REGULAR" },
+        { subjectId: "electronica_aplicada_1", requiredState: "REGULAR" },
       ],
       correlativasAprobar: [
         { subjectId: "tecnicas_sonorizacion_1", requiredState: "APROBADA" },
@@ -177,8 +177,8 @@ export const licenciaturaSonido: CareerMap = {
       name: "Audioperceptiva III",
       year: 3,
       correlativasCursar: [
-        { subjectId: "piano_aplicado_1", requiredState: "APROBADA" },
-        { subjectId: "audioperceptiva_2", requiredState: "APROBADA" },
+        { subjectId: "piano_aplicado_1", requiredState: "REGULAR" },
+        { subjectId: "audioperceptiva_2", requiredState: "REGULAR" },
       ],
       correlativasAprobar: [
         { subjectId: "audioperceptiva_1", requiredState: "APROBADA" },
@@ -193,7 +193,7 @@ export const licenciaturaSonido: CareerMap = {
       name: "Piano Aplicado III",
       year: 3,
       correlativasCursar: [
-        { subjectId: "piano_aplicado_2", requiredState: "APROBADA" },
+        { subjectId: "piano_aplicado_2", requiredState: "REGULAR" },
       ],
       correlativasAprobar: [
         { subjectId: "piano_aplicado_1", requiredState: "APROBADA" },
@@ -208,7 +208,7 @@ export const licenciaturaSonido: CareerMap = {
       name: "Historia de la Música III",
       year: 3,
       correlativasCursar: [
-        { subjectId: "historia_musica_2", requiredState: "APROBADA" },
+        { subjectId: "historia_musica_2", requiredState: "REGULAR" },
       ],
       correlativasAprobar: [
         { subjectId: "historia_musica_1", requiredState: "APROBADA" },
@@ -222,8 +222,8 @@ export const licenciaturaSonido: CareerMap = {
       name: "Elementos Básicos de Composición II",
       year: 3,
       correlativasCursar: [
-        { subjectId: "audioperceptiva_2", requiredState: "APROBADA" },
-        { subjectId: "elementos_basicos_composicion_1", requiredState: "APROBADA" },
+        { subjectId: "audioperceptiva_2", requiredState: "REGULAR" },
+        { subjectId: "elementos_basicos_composicion_1", requiredState: "REGULAR" },
       ],
       correlativasAprobar: [
         { subjectId: "audioperceptiva_2", requiredState: "APROBADA" },
@@ -249,8 +249,8 @@ export const licenciaturaSonido: CareerMap = {
       name: "Informática Musical",
       year: 3,
       correlativasCursar: [
-        { subjectId: "electronica_aplicada_2", requiredState: "APROBADA" },
-        { subjectId: "tecnicas_sonorizacion_2", requiredState: "APROBADA" },
+        { subjectId: "electronica_aplicada_2", requiredState: "REGULAR" },
+        { subjectId: "tecnicas_sonorizacion_2", requiredState: "REGULAR" },
       ],
       correlativasAprobar: [
         { subjectId: "electronica_aplicada_2", requiredState: "APROBADA" },
@@ -266,9 +266,9 @@ export const licenciaturaSonido: CareerMap = {
       name: "Diseño de Sonido I",
       year: 3,
       correlativasCursar: [
-        { subjectId: "acustica_2", requiredState: "APROBADA" },
-        { subjectId: "electronica_aplicada_2", requiredState: "APROBADA" },
-        { subjectId: "tecnicas_sonorizacion_2", requiredState: "APROBADA" },
+        { subjectId: "acustica_2", requiredState: "REGULAR" },
+        { subjectId: "electronica_aplicada_2", requiredState: "REGULAR" },
+        { subjectId: "tecnicas_sonorizacion_2", requiredState: "REGULAR" },
       ],
       correlativasAprobar: [
         { subjectId: "acustica_2", requiredState: "APROBADA" },
@@ -287,14 +287,14 @@ export const licenciaturaSonido: CareerMap = {
       name: "Estéticas Sonoras Contemporáneas",
       year: 4,
       correlativasCursar: [
-        { subjectId: "audioperceptiva_3", requiredState: "APROBADA" },
-        { subjectId: "piano_aplicado_3", requiredState: "APROBADA" },
-        { subjectId: "historia_musica_3", requiredState: "APROBADA" },
-        { subjectId: "elementos_basicos_composicion_2", requiredState: "APROBADA" },
+        { subjectId: "audioperceptiva_3", requiredState: "REGULAR" },
+        { subjectId: "piano_aplicado_3", requiredState: "REGULAR" },
+        { subjectId: "historia_musica_3", requiredState: "REGULAR" },
+        { subjectId: "elementos_basicos_composicion_2", requiredState: "REGULAR" },
       ],
       correlativasAprobar: [],
-      requiresYearsApprovedCursar: [2],
-      requiresYearsApprovedAprobar: [3],
+      requiresYearsApprovedCursar: [1, 2],
+      requiresYearsApprovedAprobar: [1, 2, 3],
       cuatrimestre: 4,
       duration: "ANUAL",
     },
@@ -303,13 +303,13 @@ export const licenciaturaSonido: CareerMap = {
       name: "Legislación Aplicada",
       year: 4,
       correlativasCursar: [
-        { subjectId: "elementos_basicos_composicion_2", requiredState: "APROBADA" },
-        { subjectId: "informatica_musical", requiredState: "APROBADA" },
-        { subjectId: "diseno_sonido_1", requiredState: "APROBADA" },
+        { subjectId: "elementos_basicos_composicion_2", requiredState: "REGULAR" },
+        { subjectId: "informatica_musical", requiredState: "REGULAR" },
+        { subjectId: "diseno_sonido_1", requiredState: "REGULAR" },
       ],
       correlativasAprobar: [],
-      requiresYearsApprovedCursar: [2],
-      requiresYearsApprovedAprobar: [3],
+      requiresYearsApprovedCursar: [1, 2],
+      requiresYearsApprovedAprobar: [1, 2, 3],
       cuatrimestre: 4,
       duration: "ANUAL",
     },
@@ -318,13 +318,13 @@ export const licenciaturaSonido: CareerMap = {
       name: "Inglés II",
       year: 4,
       correlativasCursar: [
-        { subjectId: "ingles_1", requiredState: "APROBADA" },
+        { subjectId: "ingles_1", requiredState: "REGULAR" },
       ],
       correlativasAprobar: [
         { subjectId: "ingles_1", requiredState: "APROBADA" },
       ],
-      requiresYearsApprovedCursar: [2],
-      requiresYearsApprovedAprobar: [2],
+      requiresYearsApprovedCursar: [1, 2],
+      requiresYearsApprovedAprobar: [1, 2],
       cuatrimestre: 4,
       duration: "ANUAL",
     },
@@ -333,14 +333,14 @@ export const licenciaturaSonido: CareerMap = {
       name: "Composición Aplicada",
       year: 4,
       correlativasCursar: [
-        { subjectId: "audioperceptiva_3", requiredState: "APROBADA" },
-        { subjectId: "piano_aplicado_3", requiredState: "APROBADA" },
-        { subjectId: "historia_musica_3", requiredState: "APROBADA" },
-        { subjectId: "elementos_basicos_composicion_2", requiredState: "APROBADA" },
+        { subjectId: "audioperceptiva_3", requiredState: "REGULAR" },
+        { subjectId: "piano_aplicado_3", requiredState: "REGULAR" },
+        { subjectId: "historia_musica_3", requiredState: "REGULAR" },
+        { subjectId: "elementos_basicos_composicion_2", requiredState: "REGULAR" },
       ],
       correlativasAprobar: [],
-      requiresYearsApprovedCursar: [2],
-      requiresYearsApprovedAprobar: [3],
+      requiresYearsApprovedCursar: [1, 2],
+      requiresYearsApprovedAprobar: [1, 2, 3],
       cuatrimestre: 4,
       duration: "ANUAL",
     },
@@ -349,15 +349,15 @@ export const licenciaturaSonido: CareerMap = {
       name: "Diseño de Sonido II",
       year: 4,
       correlativasCursar: [
-        { subjectId: "historia_musica_3", requiredState: "APROBADA" },
-        { subjectId: "elementos_basicos_composicion_2", requiredState: "APROBADA" },
-        { subjectId: "ingles_1", requiredState: "APROBADA" },
-        { subjectId: "informatica_musical", requiredState: "APROBADA" },
-        { subjectId: "diseno_sonido_1", requiredState: "APROBADA" },
+        { subjectId: "historia_musica_3", requiredState: "REGULAR" },
+        { subjectId: "elementos_basicos_composicion_2", requiredState: "REGULAR" },
+        { subjectId: "ingles_1", requiredState: "REGULAR" },
+        { subjectId: "informatica_musical", requiredState: "REGULAR" },
+        { subjectId: "diseno_sonido_1", requiredState: "REGULAR" },
       ],
       correlativasAprobar: [],
-      requiresYearsApprovedCursar: [2],
-      requiresYearsApprovedAprobar: [3],
+      requiresYearsApprovedCursar: [1, 2],
+      requiresYearsApprovedAprobar: [1, 2, 3],
       cuatrimestre: 4,
       duration: "ANUAL",
     },
@@ -366,15 +366,15 @@ export const licenciaturaSonido: CareerMap = {
       name: "Taller Integrador en Artes",
       year: 4,
       correlativasCursar: [
-        { subjectId: "piano_aplicado_3", requiredState: "APROBADA" },
-        { subjectId: "historia_musica_3", requiredState: "APROBADA" },
-        { subjectId: "elementos_basicos_composicion_2", requiredState: "APROBADA" },
-        { subjectId: "informatica_musical", requiredState: "APROBADA" },
-        { subjectId: "diseno_sonido_1", requiredState: "APROBADA" },
+        { subjectId: "piano_aplicado_3", requiredState: "REGULAR" },
+        { subjectId: "historia_musica_3", requiredState: "REGULAR" },
+        { subjectId: "elementos_basicos_composicion_2", requiredState: "REGULAR" },
+        { subjectId: "informatica_musical", requiredState: "REGULAR" },
+        { subjectId: "diseno_sonido_1", requiredState: "REGULAR" },
       ],
       correlativasAprobar: [],
-      requiresYearsApprovedCursar: [2],
-      requiresYearsApprovedAprobar: [3],
+      requiresYearsApprovedCursar: [1, 2],
+      requiresYearsApprovedAprobar: [1, 2, 3],
       cuatrimestre: 4,
       duration: "ANUAL",
     },
@@ -412,7 +412,7 @@ export const licenciaturaSonido: CareerMap = {
         { subjectId: "diseno_sonido_2", requiredState: "APROBADA" },
         { subjectId: "taller_integrador_artes", requiredState: "APROBADA" },
       ],
-      requiresYearsApprovedCursar: [3],
+      requiresYearsApprovedCursar: [1, 2, 3],
       cuatrimestre: 4,
       duration: "ANUAL",
     },
