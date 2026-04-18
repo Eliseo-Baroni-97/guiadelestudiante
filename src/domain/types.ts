@@ -16,6 +16,11 @@ export interface SubjectNode {
   name: string;
   year: number;
   correlativas?: Prereq[]; // legacy temporal, puede estar ausente
+  /**
+   * Correlativas requeridas para poder cursar y para poder quedar regular en la materia.
+   * Según la normativa, si cumplís estas correlativas podés cursar y también quedar regular,
+   * pero no necesariamente aprobar (para eso existen correlativasAprobar).
+   */
   correlativasCursar?: Prereq[];
   correlativasAprobar?: Prereq[];
   duration?: SubjectDuration;
